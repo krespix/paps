@@ -42,6 +42,22 @@ services:
     volumes:
       - ./gamification-api:/opt/app
 
+  auth:
+    build:
+      context: ./../../auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    networks:
+      - gamification-api
+    depends_on:
+      - postgres
+      - flyway
+    env_file:
+      - ./../../auth-service/.env
+    volumes:
+      - ./auth-service:/opt/app
+
   frontend:
     build:
       context: ./../../gamification-frontend
